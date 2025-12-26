@@ -1,7 +1,9 @@
 {
+  "/_not-found/page": "app/_not-found/page.js",
+  "/login/page": "app/login/page.js",
   "/page": "app/page.js",
-  "/contact/page": "app/contact/page.js",
   "/about/page": "app/about/page.js",
-  "/careers/page": "app/careers/page.js",
-  "/community-services/page": "app/community-services/page.js"
+  "/dashboard/client/page": "app/dashboard/client/page.js",
+  "/dashboard/staff/page": "app/dashboard/staff/page.js",
+  "/dashboard/admin/page": "app/dashboard/admin/page.js"
 }

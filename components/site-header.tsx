@@ -160,7 +160,7 @@ export function SiteHeader() {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Button asChild>
-            <Link href="/contact">Get a Quote</Link>
+            <Link href="/login">Login</Link>
           </Button>
         </div>
       </nav>
@@ -295,8 +295,8 @@ export function SiteHeader() {
                 </div>
                 <div className="py-6">
                   <Button asChild className="w-full">
-                    <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                      Get a Quote
+                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                      Login
                     </Link>
                   </Button>
                 </div>
