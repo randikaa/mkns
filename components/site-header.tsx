@@ -76,7 +76,14 @@ export function SiteHeader() {
       <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 lg:px-8">
         <div className="flex lg:flex-1">
-          <Link href="/" className="-m-1.5 p-1.5">
+          <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2">
+            <img
+              src="https://img.icons8.com/ios-filled/50/housekeeper-male.png"
+              alt="MKNS Logo"
+              width={32}
+              height={32}
+              className="h-8 w-8 transition-transform group-hover:scale-110"
+            />
             <span className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
               MKNS
             </span>
@@ -168,7 +175,14 @@ export function SiteHeader() {
           />
           <div className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-background px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-border">
             <div className="flex items-center justify-between">
-              <Link href="/" className="-m-1.5 p-1.5" onClick={() => setMobileMenuOpen(false)}>
+              <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                <img
+                  src="https://img.icons8.com/ios-filled/50/housekeeper-male.png"
+                  alt="MKNS Logo"
+                  width={32}
+                  height={32}
+                  className="h-8 w-8"
+                />
                 <span className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
                   MKNS
                 </span>

@@ -33,7 +33,14 @@ export function SiteFooter() {
         <div className="grid gap-8 lg:grid-cols-4">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="inline-block">
+            <Link href="/" className="inline-flex items-center gap-2">
+              <img
+                src="https://img.icons8.com/ios-filled/50/housekeeper-male.png"
+                alt="MKNS Logo"
+                width={24}
+                height={24}
+                className="h-6 w-6"
+              />
               <span className="text-xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-heading)" }}>
                 MKNS
               </span>
