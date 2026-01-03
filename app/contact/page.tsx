@@ -21,8 +21,8 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "sanjunipun179@gmail.com",
-    href: "mailto:sanjunipun179@gmail.com",
+    value: "contact@mknscleaningsolution.com.au",
+    href: "mailto:contact@mknscleaningsolution.com.au",
     description: "We'll respond within 24 hours",
   },
   {

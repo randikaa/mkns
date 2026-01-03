@@ -77,8 +77,8 @@ export default function CareersPage() {
             </p>
             <div className="p-8 rounded-2xl border border-dashed border-border bg-muted/30">
               <p className="text-lg font-medium text-foreground">Email your CV to:</p>
-              <a href="mailto:sanjunipun179@gmail.com" className="text-2xl font-bold text-primary hover:underline block mt-2">
-                sanjunipun179@gmail.com
+              <a href="mailto:contact@mknscleaningsolution.com.au" className="text-2xl font-bold text-primary hover:underline block mt-2">
+                contact@mknscleaningsolution.com.au
               </a>
             </div>
           </div>

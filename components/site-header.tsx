@@ -23,10 +23,9 @@ const commercialCleaningLinks = [
   { title: "Retail Cleaning", href: "/services#retail" },
   { title: "Hotel Venue Cleaning", href: "/services#hospitality" },
   { title: "Childcare Cleaning", href: "/services#education" },
-  { title: "Gyms & Sport Centre Cleaning", href: "/services#retail" },
-  { title: "Government Building Cleaning", href: "/services#office" },
-  { title: "Council Cleaning", href: "/services#office" },
-  { title: "Park Cleaning", href: "/services#industrial" },
+  { title: "Gyms & Sport Centres Cleaning", href: "/services#retail" },
+  { title: "Government Buildings Cleaning", href: "/services#office" },
+  { title: "Councils Cleaning", href: "/services#office" },
 ]
 
 const ourServicesLinks = [
@@ -111,7 +110,7 @@ export function SiteHeader() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Commercial Cleaning</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                  <ul className="grid w-[280px] gap-1 p-4">
                     {commercialCleaningLinks.map((link) => (
                       <ListItem key={link.title} title={link.title} href={link.href} />
                     ))}
@@ -122,7 +121,7 @@ export function SiteHeader() {
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Our Services</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[600px] md:grid-cols-2 lg:w-[800px]">
+                  <ul className="grid w-[360px] gap-1 p-4">
                     {ourServicesLinks.map((link) => (
                       <ListItem key={link.title} title={link.title} href={link.href}>
                         {link.description}

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 }
 
 const stats = [
-  { value: "15+", label: "Years Experience" },
+  { value: "7+", label: "Years Experience" },
   { value: "500+", label: "Happy Clients" },
   { value: "50+", label: "Team Members" },
   { value: "24/7", label: "Support Available" },
@@ -115,7 +115,7 @@ export default function AboutPage() {
               </div>
               <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-muted">
                 <img
-                  src="/cleaning-services-team-professional-portrait.jpg"
+                  src="/cleaning-team.png"
                   alt="MKNS cleaning team"
                   className="h-full w-full object-cover"
                 />

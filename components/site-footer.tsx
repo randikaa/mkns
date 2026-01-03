@@ -112,11 +112,11 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="mailto:sanjunipun179@gmail.com"
+                  href="mailto:contact@mknscleaningsolution.com.au"
                   className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground"
                 >
                   <Mail className="h-4 w-4" />
-                  <span>sanjunipun179@gmail.com</span>
+                  <span>contact@mknscleaningsolution.com.au</span>
                 </a>
               </li>
             </ul>
