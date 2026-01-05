@@ -1,7 +1,8 @@
 {
-  "/page": "app/page.js",
-  "/about/page": "app/about/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/community-services/page": "app/community-services/page.js",
-  "/login/page": "app/login/page.js"
+  "/login/page": "app/login/page.js",
+  "/dashboard/client/page": "app/dashboard/client/page.js",
+  "/dashboard/client/bookings/page": "app/dashboard/client/bookings/page.js",
+  "/dashboard/client/book/page": "app/dashboard/client/book/page.js",
+  "/dashboard/client/invoices/page": "app/dashboard/client/invoices/page.js",
+  "/dashboard/client/settings/page": "app/dashboard/client/settings/page.js"
 }
