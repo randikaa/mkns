@@ -6,45 +6,30 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
-    "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
-    ],
-    "/login/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/login/page.js"
-    ],
     "/dashboard/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/layout.js"
     ],
-    "/dashboard/client/page": [
+    "/dashboard/admin/clients/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/client/page.js"
+      "static/chunks/app/dashboard/admin/clients/page.js"
     ],
-    "/dashboard/client/bookings/page": [
+    "/api/clients/route": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/client/bookings/page.js"
+      "static/chunks/app/api/clients/route.js"
     ],
-    "/dashboard/client/book/page": [
+    "/dashboard/admin/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/client/book/page.js"
+      "static/chunks/app/dashboard/admin/page.js"
     ],
-    "/dashboard/client/invoices/page": [
+    "/dashboard/admin/jobs/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/client/invoices/page.js"
-    ],
-    "/dashboard/client/settings/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/client/settings/page.js"
+      "static/chunks/app/dashboard/admin/jobs/page.js"
     ]
   }
 }

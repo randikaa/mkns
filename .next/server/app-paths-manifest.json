@@ -1,8 +1,6 @@
 {
-  "/login/page": "app/login/page.js",
-  "/dashboard/client/page": "app/dashboard/client/page.js",
-  "/dashboard/client/bookings/page": "app/dashboard/client/bookings/page.js",
-  "/dashboard/client/book/page": "app/dashboard/client/book/page.js",
-  "/dashboard/client/invoices/page": "app/dashboard/client/invoices/page.js",
-  "/dashboard/client/settings/page": "app/dashboard/client/settings/page.js"
+  "/api/clients/route": "app/api/clients/route.js",
+  "/dashboard/admin/clients/page": "app/dashboard/admin/clients/page.js",
+  "/dashboard/admin/page": "app/dashboard/admin/page.js",
+  "/dashboard/admin/jobs/page": "app/dashboard/admin/jobs/page.js"
 }
