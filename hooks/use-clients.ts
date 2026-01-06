@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 export interface Client {
   id: number
@@ -25,33 +25,33 @@ export interface NewClientData {
 
 export function useClients() {
   const [clients, setClients] = useState<Client[]>([])
-  const [loading, setLoading] = useState(false) // Changed from true to false
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchClients = async () => {
+  const fetchClients = useCallback(async () => {
     try {
       setLoading(true)
       setError(null)
-      
+
       const response = await fetch('/api/clients')
-      
+
       if (!response.ok) {
         const data = await response.json()
         throw new Error(data.error || 'Failed to fetch clients')
       }
-      
+
       const data = await response.json()
       setClients(data.clients || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
       console.error('Error fetching clients:', err)
-      setClients([]) // Set empty array on error
+      setClients([])
     } finally {
       setLoading(false)
     }
-  }
+  }, [])
 
-  const addClient = async (clientData: NewClientData): Promise<{ success: boolean; error?: string }> => {
+  const addClient = useCallback(async (clientData: NewClientData): Promise<{ success: boolean; error?: string }> => {
     try {
       const response = await fetch('/api/clients', {
         method: 'POST',
@@ -60,25 +60,25 @@ export function useClients() {
         },
         body: JSON.stringify(clientData),
       })
-      
+
       const data = await response.json()
-      
+
       if (!response.ok) {
         return { success: false, error: data.error || 'Failed to create client' }
       }
-      
+
       // Refresh the clients list
       await fetchClients()
-      
+
       return { success: true }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred'
       console.error('Error adding client:', err)
       return { success: false, error: errorMessage }
     }
-  }
+  }, [fetchClients])
 
-  const updateClient = async (id: number, clientData: Partial<Client>): Promise<{ success: boolean; error?: string }> => {
+  const updateClient = useCallback(async (id: number, clientData: Partial<Client>): Promise<{ success: boolean; error?: string }> => {
     try {
       const response = await fetch(`/api/clients/${id}`, {
         method: 'PUT',
@@ -87,51 +87,50 @@ export function useClients() {
         },
         body: JSON.stringify(clientData),
       })
-      
+
       const data = await response.json()
-      
+
       if (!response.ok) {
         return { success: false, error: data.error || 'Failed to update client' }
       }
-      
+
       // Refresh the clients list
       await fetchClients()
-      
+
       return { success: true }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred'
       console.error('Error updating client:', err)
       return { success: false, error: errorMessage }
     }
-  }
+  }, [fetchClients])
 
-  const deleteClient = async (id: number): Promise<{ success: boolean; error?: string }> => {
+  const deleteClient = useCallback(async (id: number): Promise<{ success: boolean; error?: string }> => {
     try {
       const response = await fetch(`/api/clients/${id}`, {
         method: 'DELETE',
       })
-      
+
       const data = await response.json()
-      
+
       if (!response.ok) {
         return { success: false, error: data.error || 'Failed to delete client' }
       }
-      
+
       // Refresh the clients list
       await fetchClients()
-      
+
       return { success: true }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An error occurred'
       console.error('Error deleting client:', err)
       return { success: false, error: errorMessage }
     }
-  }
+  }, [fetchClients])
 
-  // Remove the automatic fetch on mount since it's causing errors
-  // useEffect(() => {
-  //   fetchClients()
-  // }, [])
+  useEffect(() => {
+    fetchClients()
+  }, [fetchClients])
 
   return {
     clients,

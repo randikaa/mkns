@@ -48,11 +48,11 @@ export function HeroSection() {
             <div className="absolute -bottom-6 -left-6 rounded-xl bg-card p-4 shadow-lg ring-1 ring-border">
               <div className="flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                  <span className="text-xl font-bold text-primary">15+</span>
+                  <span className="text-xl font-bold text-primary">+7</span>
                 </div>
                 <div>
                   <p className="text-sm font-medium text-foreground">Years Experience</p>
-                  <p className="text-xs text-muted-foreground">Trusted since 2010</p>
+                  <p className="text-xs text-muted-foreground">Trusted since 2018</p>
                 </div>
               </div>
             </div>

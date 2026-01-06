@@ -103,11 +103,11 @@ export function SiteFooter() {
               </li>
               <li>
                 <a
-                  href="tel:1800123456"
+                  href="tel:+61420505060"
                   className="flex items-center gap-3 text-sm text-muted-foreground hover:text-foreground"
                 >
                   <Phone className="h-4 w-4" />
-                  <span>1800 123 456</span>
+                  <span>+61 420 505 060</span>
                 </a>
               </li>
               <li>

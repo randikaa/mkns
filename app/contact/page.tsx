@@ -14,8 +14,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: "Phone",
-    value: "1800 123 456",
-    href: "tel:1800123456",
+    value: "+61 420 505 060",
+    href: "tel:+61420505060",
     description: "Mon-Fri 8am-6pm, Sat 9am-1pm",
   },
   {
@@ -36,7 +36,7 @@ const contactInfo = [
     icon: Clock,
     label: "Emergency",
     value: "24/7 Available",
-    href: "tel:1800123456",
+    href: "tel:+61420505060",
     description: "For urgent cleaning needs",
   },
 ]
