@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useMemo } from "react"
 import { 
   Users, 
   ClipboardList, 
@@ -7,18 +8,58 @@ import {
   DollarSign,
   Plus,
   ArrowUpRight,
-  ArrowDownRight
+  ArrowDownRight,
+  Clock,
+  Calendar
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { useEvents } from "@/hooks/use-events"
+import Link from "next/link"
 
 export default function AdminDashboard() {
+  const { events, fetchEvents, loading } = useEvents()
+
+  useEffect(() => {
+    // Fetch events for the dashboard
+    fetchEvents()
+  }, [fetchEvents])
+
+  // Get the 5 most recent events
+  const recentEvents = useMemo(() => {
+    return [...events]
+      .sort((a, b) => new Date(b.startTime).getTime() - new Date(a.startTime).getTime())
+      .slice(0, 5)
+  }, [events])
+
   const stats = [
     { title: "Total Revenue", value: "$45,231", icon: DollarSign, trend: "+12.5%", positive: true },
     { title: "Active Clients", value: "1,204", icon: Users, trend: "+3.2%", positive: true },
     { title: "Staff Members", value: "48", icon: Users, trend: "+2 new", positive: true },
-    { title: "Pending Jobs", value: "24", icon: ClipboardList, trend: "-5%", positive: false },
+    { title: "Active Services", value: "156", icon: ClipboardList, trend: "+8%", positive: true },
   ]
+
+  const formatRelativeTime = (dateString: string) => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffInMs = Math.abs(now.getTime() - date.getTime())
+    const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60))
+    const diffInDays = Math.floor(diffInHours / 24)
+
+    if (diffInDays > 0) return `${diffInDays}d ${date > now ? 'from now' : 'ago'}`
+    if (diffInHours > 0) return `${diffInHours}h ${date > now ? 'from now' : 'ago'}`
+    return "Just now"
+  }
+
+  const getStatusStyles = (status: string) => {
+    switch (status) {
+      case 'Scheduled': return 'bg-blue-50 text-blue-700'
+      case 'In Progress': return 'bg-emerald-50 text-emerald-700'
+      case 'Completed': return 'bg-slate-50 text-slate-700'
+      case 'Cancelled': return 'bg-rose-50 text-rose-700'
+      default: return 'bg-slate-50 text-slate-700'
+    }
+  }
 
   return (
     <div className="space-y-8">
@@ -50,33 +91,46 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Recent Activity */}
+        {/* Recent Activity (Schedules) */}
         <Card className="lg:col-span-2 border-none shadow-sm shadow-slate-200">
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
-              <CardTitle>Recent Job Activity</CardTitle>
-              <CardDescription>Latest updates from your cleaning team.</CardDescription>
+              <CardTitle>Recent Activity</CardTitle>
+              <CardDescription>Latest updates from your cleaning services.</CardDescription>
             </div>
-            <Button variant="outline" size="sm">View All</Button>
+            <Link href="/dashboard/admin/schedules">
+              <Button variant="outline" size="sm">View All</Button>
+            </Link>
           </CardHeader>
           <CardContent>
              <div className="space-y-6">
-               {[1, 2, 3, 4].map((item) => (
-                 <div key={item} className="flex items-center gap-4">
-                   <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
-                     <ClipboardList className="h-5 w-5 text-slate-500" />
+               {loading ? (
+                 <div className="text-center py-4 text-slate-500 text-sm">Loading activity...</div>
+               ) : recentEvents.length > 0 ? (
+                 recentEvents.map((event) => (
+                   <div key={event.id} className="flex items-center gap-4">
+                     <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center shrink-0">
+                       <Calendar className="h-5 w-5 text-slate-500" />
+                     </div>
+                     <div className="flex-1 min-w-0">
+                       <p className="text-sm font-semibold text-slate-900 truncate">{event.title}</p>
+                       <p className="text-xs text-slate-500 truncate">
+                         {event.client?.companyName || event.location || 'No location'} • {formatRelativeTime(event.startTime)}
+                       </p>
+                     </div>
+                     <div className="text-right">
+                       <span className={cn(
+                         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+                         getStatusStyles(event.status)
+                       )}>
+                         {event.status}
+                       </span>
+                     </div>
                    </div>
-                   <div className="flex-1 min-w-0">
-                     <p className="text-sm font-semibold text-slate-900">Office Cleaning - Melbourne CBD</p>
-                     <p className="text-xs text-slate-500 truncate">Requested by Victorian Health Authority • 2h ago</p>
-                   </div>
-                   <div className="text-right">
-                     <span className="inline-flex items-center rounded-full bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700">
-                       In Progress
-                     </span>
-                   </div>
-                 </div>
-               ))}
+                 ))
+               ) : (
+                 <div className="text-center py-4 text-slate-500 text-sm">No recent activity found.</div>
+               )}
              </div>
           </CardContent>
         </Card>
@@ -88,11 +142,11 @@ export default function AdminDashboard() {
             <CardDescription>Common administrative tasks.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Button className="w-full justify-start gap-2 bg-emerald-600 hover:bg-emerald-700">
-              <Plus className="h-4 w-4" /> Create New Job
-            </Button>
             <Button variant="outline" className="w-full justify-start gap-2">
               <Users className="h-4 w-4" /> Add Staff Member
+            </Button>
+            <Button variant="outline" className="w-full justify-start gap-2">
+              <Users className="h-4 w-4" /> Add Client
             </Button>
             <Button variant="outline" className="w-full justify-start gap-2">
               <TrendingUp className="h-4 w-4" /> Generate Report

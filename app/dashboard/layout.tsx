@@ -23,10 +23,8 @@ const adminNavItems = [
   { title: "Overview", href: "/dashboard/admin", icon: LayoutDashboard },
   { title: "Clients", href: "/dashboard/admin/clients", icon: Users },
   { title: "Staff", href: "/dashboard/admin/staff", icon: Users },
-  { title: "Jobs", href: "/dashboard/admin/jobs", icon: ClipboardList },
   { title: "Schedules", href: "/dashboard/admin/schedules", icon: Calendar },
   { title: "Reports", href: "/dashboard/admin/reports", icon: BarChart3 },
-  { title: "Settings", href: "/dashboard/admin/settings", icon: Settings },
 ]
 
 const staffNavItems = [
@@ -34,7 +32,6 @@ const staffNavItems = [
   { title: "My Schedule", href: "/dashboard/staff/schedule", icon: Calendar },
   { title: "My Profile", href: "/dashboard/staff/profile", icon: User },
   { title: "Announcements", href: "/dashboard/staff/announcements", icon: Bell },
-  { title: "Settings", href: "/dashboard/staff/settings", icon: Settings },
 ]
 
 const clientNavItems = [
@@ -42,7 +39,6 @@ const clientNavItems = [
   { title: "My Bookings", href: "/dashboard/client/bookings", icon: ClipboardList },
   { title: "Book a Service", href: "/dashboard/client/book", icon: Calendar },
   { title: "Invoices", href: "/dashboard/client/invoices", icon: BarChart3 },
-  { title: "Settings", href: "/dashboard/client/settings", icon: Settings },
 ]
 
 export default function DashboardLayout({
@@ -74,7 +70,7 @@ export default function DashboardLayout({
         <div className="flex h-full flex-col px-3 py-4">
           <Link href="/" className="mb-10 flex items-center gap-2 pl-2.5">
             <img
-              src="https://img.icons8.com/ios-filled/50/housekeeper-male.png"
+              src="/logo.png"
               alt="MKNS Logo"
               width={32}
               height={32}
@@ -144,11 +140,11 @@ export default function DashboardLayout({
              <div className="h-8 w-px bg-slate-200" />
              <div className="flex items-center gap-3">
                <div className="text-right">
-                 <p className="text-sm font-semibold text-slate-700">John Doe</p>
+                 <p className="text-sm font-semibold text-slate-700">Nipun Sanju</p>
                  <p className="text-xs text-slate-500 capitalize">{roleLabel}</p>
                </div>
                <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold border-2 border-white shadow-sm">
-                 JD
+                 NS
                </div>
              </div>
            </div>

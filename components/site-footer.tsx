@@ -35,7 +35,7 @@ export function SiteFooter() {
           <div className="lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2">
               <img
-                src="https://img.icons8.com/ios-filled/50/housekeeper-male.png"
+                src="/logo.png"
                 alt="MKNS Logo"
                 width={24}
                 height={24}

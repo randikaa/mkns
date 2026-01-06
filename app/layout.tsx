@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   description:
     "Professional commercial cleaning, domestic cleaning, and facility management services by MKNS. Eco-friendly solutions for offices, hospitals, schools, and more.",
   icons: {
-    icon: "https://img.icons8.com/ios-filled/50/housekeeper-male.png",
+    icon: "/logo.png",
   },
 }
 

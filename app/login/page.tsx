@@ -30,7 +30,7 @@ export default function LoginPage() {
         <div className="absolute bottom-12 left-12 right-12 z-10">
           <Link href="/" className="mb-8 flex items-center gap-2">
             <img
-              src="https://img.icons8.com/ios-filled/50/housekeeper-male.png"
+              src="/logo.png"
               alt="MKNS Logo"
               width={40}
               height={40}
@@ -53,7 +53,7 @@ export default function LoginPage() {
           <div className="lg:hidden text-center mb-8">
              <Link href="/" className="inline-flex items-center gap-2">
               <img
-                src="https://img.icons8.com/ios-filled/50/housekeeper-male.png"
+                src="/logo.png"
                 alt="MKNS Logo"
                 width={32}
                 height={32}

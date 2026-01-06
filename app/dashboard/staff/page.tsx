@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect, useMemo } from "react"
 import { 
   Calendar, 
   MapPin, 
@@ -11,8 +12,38 @@ import {
 } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { useEvents } from "@/hooks/use-events"
 
 export default function StaffDashboard() {
+  const { events, fetchEvents, loading } = useEvents()
+
+  useEffect(() => {
+    // Fetch events for the staff portal
+    const today = new Date()
+    const startOfDay = new Date(today.setHours(0, 0, 0, 0)).toISOString()
+    const endOfDay = new Date(today.setHours(23, 59, 59, 999)).toISOString()
+    
+    fetchEvents(startOfDay, endOfDay)
+  }, [fetchEvents])
+
+  const formatTime = (dateString: string) => {
+    return new Date(dateString).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true
+    })
+  }
+
+  const getStatusStyles = (status: string) => {
+    switch (status) {
+      case 'Completed': return 'bg-emerald-100 text-emerald-800'
+      case 'In Progress': return 'bg-blue-100 text-blue-800'
+      case 'Scheduled': return 'bg-slate-100 text-slate-800'
+      case 'Cancelled': return 'bg-rose-100 text-rose-800'
+      default: return 'bg-slate-100 text-slate-800'
+    }
+  }
+
   return (
     <div className="space-y-8">
       <div>
@@ -27,47 +58,50 @@ export default function StaffDashboard() {
             <Calendar className="h-5 w-5 text-emerald-600" /> Today's Assignments
           </h2>
           
-          {[
-            { time: "08:30 AM", title: "Residential Deep Clean", location: "St Kilda, Melbourne", status: "Completed" },
-            { time: "11:00 AM", title: "Glass & Window Cleaning", location: "Docklands Office", status: "On Route" },
-            { time: "01:30 PM", title: "Gym & Sports Center Sanitization", location: "South Melbourne", status: "Upcoming" },
-          ].map((job, i) => (
-            <Card key={i} className="border-none shadow-sm shadow-slate-200 overflow-hidden group">
-              <div className="flex flex-col md:flex-row">
-                <div className="w-full md:w-32 bg-slate-50 flex flex-col items-center justify-center p-4 border-r">
-                   <p className="text-sm font-bold text-slate-900">{job.time.split(' ')[0]}</p>
-                   <p className="text-xs font-medium text-slate-500">{job.time.split(' ')[1]}</p>
-                </div>
-                <div className="flex-1 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div>
-                    <h3 className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors uppercase tracking-tight text-sm">
-                      {job.title}
-                    </h3>
-                    <div className="mt-2 space-y-1">
-                      <p className="text-sm text-slate-500 flex items-center gap-1.5">
-                        <MapPin className="h-3.5 w-3.5" /> {job.location}
-                      </p>
-                      <p className="text-xs text-slate-400 flex items-center gap-1.5 italic">
-                        <Clock className="h-3.5 w-3.5" /> Duration: 2.5 hours
-                      </p>
+          {loading ? (
+            <div className="text-center py-8 text-slate-500">Loading assignments...</div>
+          ) : events.length > 0 ? (
+            events.map((job, i) => (
+              <Card key={i} className="border-none shadow-sm shadow-slate-200 overflow-hidden group">
+                <div className="flex flex-col md:flex-row">
+                  <div className="w-full md:w-32 bg-slate-50 flex flex-col items-center justify-center p-4 border-r">
+                     <p className="text-sm font-bold text-slate-900">{formatTime(job.startTime).split(' ')[0]}</p>
+                     <p className="text-xs font-medium text-slate-500">{formatTime(job.startTime).split(' ')[1]}</p>
+                  </div>
+                  <div className="flex-1 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                      <h3 className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors uppercase tracking-tight text-sm">
+                        {job.title}
+                      </h3>
+                      <div className="mt-2 space-y-1">
+                        <p className="text-sm text-slate-500 flex items-center gap-1.5">
+                          <MapPin className="h-3.5 w-3.5" /> {job.location || 'No location set'}
+                        </p>
+                        <p className="text-xs text-slate-400 flex items-center gap-1.5 italic">
+                          <Clock className="h-3.5 w-3.5" /> Client: {job.client?.companyName || 'Private'}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <span className={cn(
+                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+                        getStatusStyles(job.status)
+                      )}>
+                        {job.status}
+                      </span>
+                      <Button size="sm" variant="ghost" className="text-slate-400 hover:text-emerald-600">
+                         Details
+                      </Button>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className={cn(
-                      "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-                      job.status === "Completed" ? "bg-emerald-100 text-emerald-800" :
-                      job.status === "On Route" ? "bg-blue-100 text-blue-800" : "bg-slate-100 text-slate-800"
-                    )}>
-                      {job.status}
-                    </span>
-                    <Button size="sm" variant="ghost" className="text-slate-400 hover:text-emerald-600">
-                       Details
-                    </Button>
-                  </div>
                 </div>
-              </div>
+              </Card>
+            ))
+          ) : (
+            <Card className="p-8 text-center text-slate-500 border-dashed">
+              No assignments scheduled for today.
             </Card>
-          ))}
+          )}
         </div>
 
         {/* Sidebar panels */}

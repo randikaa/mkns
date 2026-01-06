@@ -1,21 +1,19 @@
 "use client"
 
 import { 
-  Users, 
   Search, 
-  Plus,
+  Filter, 
+  MoreVertical,
   Mail,
   Phone,
-  Star,
-  MapPin,
+  Building,
   Calendar,
-  MoreVertical,
-  ShieldCheck
+  DollarSign,
+  Loader2
 } from "lucide-react"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -24,136 +22,181 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
-const staff = [
-  {
-    id: "1",
-    name: "John Smith",
-    role: "Senior Cleaner",
-    email: "john.s@mkns.com",
-    phone: "+61 400 111 222",
-    rating: 4.9,
-    status: "On Shift",
-    joined: "Jan 2022",
-    img: "JS"
-  },
-  {
-    id: "2",
-    name: "Emily Davis",
-    role: "Specialist (Carpet)",
-    email: "emily.d@mkns.com",
-    phone: "+61 400 333 444",
-    rating: 4.8,
-    status: "Available",
-    joined: "Mar 2022",
-    img: "ED"
-  },
-  {
-    id: "3",
-    name: "Robert Wilson",
-    role: "Cleaner",
-    email: "robert.w@mkns.com",
-    phone: "+61 400 555 666",
-    rating: 4.7,
-    status: "Off Duty",
-    joined: "June 2023",
-    img: "RW"
-  },
-  {
-    id: "4",
-    name: "Jessica Taylor",
-    role: "Supervisor",
-    email: "jess.t@mkns.com",
-    phone: "+61 400 777 888",
-    rating: 5.0,
-    status: "On Shift",
-    joined: "Nov 2021",
-    img: "JT"
-  }
-]
+import { Badge } from "@/components/ui/badge"
+import AddStaffDialog from "@/components/AddStaffDialog"
+import { useStaff, type NewStaffData } from "@/hooks/use-staff"
+import { useState } from "react"
 
 export default function AdminStaffPage() {
+  const { staff, loading, error, addStaff } = useStaff()
+  const [searchTerm, setSearchTerm] = useState("")
+
+  const handleStaffAdd = async (staffData: NewStaffData) => {
+    const result = await addStaff(staffData)
+    if (!result.success) {
+      throw new Error(result.error || 'Failed to create staff member')
+    }
+  }
+
+  const filteredStaff = staff.filter(member =>
+    member.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    member.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    member.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    member.position.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    member.department.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
+  }
+
+  const formatSalary = (salary: string | null) => {
+    if (!salary) return 'Not specified'
+    return `$${salary}`
+  }
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold text-slate-900 tracking-tight">Staff Management</h1>
-          <p className="text-slate-500 mt-1">Monitor performance, manage schedules, and coordinate your field team.</p>
+          <p className="text-slate-500 mt-1">Manage all your staff members and their employment information.</p>
         </div>
-        <Button className="bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-200 uppercase tracking-wider text-xs font-bold py-6">
-          <Plus className="mr-2 h-4 w-4" /> Recruit New Member
-        </Button>
+        <AddStaffDialog onStaffAdd={handleStaffAdd} />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {staff.map((member) => (
-          <Card key={member.id} className="border-none shadow-sm shadow-slate-200 overflow-hidden group hover:shadow-md transition-all">
-            <CardHeader className="pb-4 relative">
-               <div className="absolute right-4 top-4">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Edit Details</DropdownMenuItem>
-                      <DropdownMenuItem>Assign Job</DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-rose-600">Deactivate</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-               </div>
-               <div className="flex flex-col items-center text-center pt-2">
-                 <div className="h-16 w-16 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 font-bold text-xl mb-4 border-4 border-white shadow-sm ring-1 ring-emerald-50">
-                    {member.img}
-                 </div>
-                 <CardTitle className="text-lg font-bold text-slate-900 group-hover:text-emerald-700 transition-colors italic underline decoration-slate-200 decoration-2 underline-offset-4">{member.name}</CardTitle>
-                 <CardDescription className="font-medium text-slate-500 flex items-center gap-1.5 mt-1">
-                   {member.role === "Supervisor" && <ShieldCheck className="h-3.5 w-3.5 text-blue-500" />}
-                   {member.role}
-                 </CardDescription>
-               </div>
-            </CardHeader>
-            <CardContent>
-               <div className="space-y-4">
-                 <div className="flex items-center justify-between p-2 rounded-lg bg-slate-50 border border-slate-100">
-                    <Badge variant="outline" className={cn(
-                      "border-none px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest",
-                      member.status === "On Shift" ? "bg-emerald-100 text-emerald-700" :
-                      member.status === "Available" ? "bg-blue-100 text-blue-700" : "bg-slate-200 text-slate-600"
-                    )}>
-                      {member.status}
-                    </Badge>
-                    <div className="flex items-center gap-1.5 text-amber-500 font-bold text-sm">
-                      <Star className="h-3.5 w-3.5 fill-amber-500" /> {member.rating}
-                    </div>
-                 </div>
+      {error && (
+        <div className="p-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">
+          Error loading staff: {error}
+        </div>
+      )}
 
-                 <div className="space-y-2.5">
-                    <div className="flex items-center gap-3 text-sm text-slate-600">
-                       <Mail className="h-4 w-4 text-slate-400" />
-                       <span className="truncate">{member.email}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm text-slate-600">
-                       <Phone className="h-4 w-4 text-slate-400" />
-                       <span>{member.phone}</span>
-                    </div>
-                    <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-[11px] text-slate-400 font-bold uppercase tracking-wider">
-                       <span>Joined: {member.joined}</span>
-                       <Button variant="link" size="sm" className="h-auto p-0 text-emerald-600 hover:text-emerald-700">Schedule</Button>
-                    </div>
-                 </div>
-               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      <Card className="border-none shadow-sm shadow-slate-200">
+        <CardHeader className="border-b bg-slate-50/50">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="relative w-full md:w-96">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              <Input 
+                placeholder="Search staff by name, email, position or department..." 
+                className="pl-10 bg-white border-slate-200"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" className="gap-2 bg-white">
+                <Filter className="h-4 w-4" /> Filter
+              </Button>
+              <Button variant="outline" size="sm" className="bg-white">Export</Button>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="p-0">
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-emerald-600" />
+              <span className="ml-2 text-slate-600">Loading staff...</span>
+            </div>
+          ) : filteredStaff.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-slate-500">
+                {searchTerm ? 'No staff members found matching your search.' : 'No staff members found. Add your first staff member to get started.'}
+              </p>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b bg-slate-50/50">
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Staff Info</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Contact Details</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Employment</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Hire Date</th>
+                    <th className="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {filteredStaff.map((member) => (
+                    <tr key={member.id} className="hover:bg-slate-50/50 transition-colors group">
+                      <td className="px-6 py-4">
+                        <div className="flex flex-col">
+                          <span className="font-bold text-slate-900 group-hover:text-emerald-700 transition-colors underline decoration-slate-200 decoration-2 underline-offset-4">
+                            {member.firstName} {member.lastName}
+                          </span>
+                          <span className="text-sm text-slate-500 flex items-center gap-1 mt-1">
+                            <Building className="h-3 w-3" /> {member.department}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="space-y-1">
+                          <div className="flex flex-col gap-0.5">
+                            <span className="text-xs text-slate-500 flex items-center gap-1.5">
+                              <Mail className="h-3 w-3" /> {member.email}
+                            </span>
+                            <span className="text-xs text-slate-500 flex items-center gap-1.5">
+                              <Phone className="h-3 w-3" /> {member.phone}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium text-slate-700">{member.position}</p>
+                          {member.salary && (
+                            <span className="text-xs text-slate-500 flex items-center gap-1.5">
+                              <DollarSign className="h-3 w-3" /> {formatSalary(member.salary)}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <Badge variant={
+                          member.status === "Active" ? "default" : 
+                          member.status === "Pending" ? "outline" : "secondary"
+                        } className={
+                          member.status === "Active" ? "bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border-none px-3 py-1" :
+                          member.status === "Pending" ? "bg-amber-50 text-amber-700 border-none px-3 py-1" : "bg-slate-100 text-slate-600 border-none px-3 py-1"
+                        }>
+                          {member.status}
+                        </Badge>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="flex items-center gap-1.5 text-sm text-slate-600 font-medium">
+                          <Calendar className="h-3 w-3" />
+                          {formatDate(member.hireDate)}
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-900">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-48">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem className="cursor-pointer">View Details</DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer">Edit Staff</DropdownMenuItem>
+                            <DropdownMenuItem className="cursor-pointer">View Payroll</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem className="text-rose-600 cursor-pointer">Deactivate Staff</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
-}
-
-function cn(...inputs: any[]) {
-  return inputs.filter(Boolean).join(" ")
 }

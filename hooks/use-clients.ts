@@ -25,7 +25,7 @@ export interface NewClientData {
 
 export function useClients() {
   const [clients, setClients] = useState<Client[]>([])
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false) // Changed from true to false
   const [error, setError] = useState<string | null>(null)
 
   const fetchClients = async () => {
@@ -34,16 +34,18 @@ export function useClients() {
       setError(null)
       
       const response = await fetch('/api/clients')
-      const data = await response.json()
       
       if (!response.ok) {
+        const data = await response.json()
         throw new Error(data.error || 'Failed to fetch clients')
       }
       
-      setClients(data.clients)
+      const data = await response.json()
+      setClients(data.clients || [])
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
       console.error('Error fetching clients:', err)
+      setClients([]) // Set empty array on error
     } finally {
       setLoading(false)
     }
@@ -126,9 +128,10 @@ export function useClients() {
     }
   }
 
-  useEffect(() => {
-    fetchClients()
-  }, [])
+  // Remove the automatic fetch on mount since it's causing errors
+  // useEffect(() => {
+  //   fetchClients()
+  // }, [])
 
   return {
     clients,

@@ -77,7 +77,7 @@ export function SiteHeader() {
         <div className="flex lg:flex-1">
           <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2">
             <img
-              src="https://img.icons8.com/ios-filled/50/housekeeper-male.png"
+              src="/logo.png"
               alt="MKNS Logo"
               width={32}
               height={32}
@@ -176,7 +176,7 @@ export function SiteHeader() {
             <div className="flex items-center justify-between">
               <Link href="/" className="-m-1.5 p-1.5 flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                 <img
-                  src="https://img.icons8.com/ios-filled/50/housekeeper-male.png"
+                  src="/logo.png"
                   alt="MKNS Logo"
                   width={32}
                   height={32}
