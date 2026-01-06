@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const staffId = parseInt(params.id)
-    
+
     if (isNaN(staffId)) {
       return NextResponse.json(
         { error: 'Invalid staff ID' },
@@ -18,7 +18,7 @@ export async function GET(
     }
 
     const [staffMember] = await db.select().from(staff).where(eq(staff.id, staffId)).limit(1)
-    
+
     if (!staffMember) {
       return NextResponse.json(
         { error: 'Staff member not found' },
@@ -26,10 +26,7 @@ export async function GET(
       )
     }
 
-    // Remove password from response
-    const { password, ...staffResponse } = staffMember
-    
-    return NextResponse.json({ staff: staffResponse })
+    return NextResponse.json({ staff: staffMember })
   } catch (error) {
     console.error('Error fetching staff member:', error)
     return NextResponse.json(
@@ -46,7 +43,7 @@ export async function PUT(
 ) {
   try {
     const staffId = parseInt(params.id)
-    
+
     if (isNaN(staffId)) {
       return NextResponse.json(
         { error: 'Invalid staff ID' },
@@ -84,10 +81,10 @@ export async function PUT(
 
     // Remove password from response
     const { password, ...staffResponse } = updatedStaff
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       message: 'Staff member updated successfully',
-      staff: staffResponse 
+      staff: staffResponse
     })
   } catch (error) {
     console.error('Error updating staff member:', error)
@@ -105,7 +102,7 @@ export async function DELETE(
 ) {
   try {
     const staffId = parseInt(params.id)
-    
+
     if (isNaN(staffId)) {
       return NextResponse.json(
         { error: 'Invalid staff ID' },
@@ -125,8 +122,8 @@ export async function DELETE(
       )
     }
 
-    return NextResponse.json({ 
-      message: 'Staff member deleted successfully' 
+    return NextResponse.json({
+      message: 'Staff member deleted successfully'
     })
   } catch (error) {
     console.error('Error deleting staff member:', error)

@@ -24,12 +24,15 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import AddStaffDialog from "@/components/AddStaffDialog"
-import { useStaff, type NewStaffData } from "@/hooks/use-staff"
+import StaffDetailsDialog from "@/components/StaffDetailsDialog"
+import { useStaff, type NewStaffData, type Staff } from "@/hooks/use-staff"
 import { useState } from "react"
 
 export default function AdminStaffPage() {
-  const { staff, loading, error, addStaff } = useStaff()
+  const { staff, loading, error, addStaff, updateStaff } = useStaff()
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null)
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false)
 
   const handleStaffAdd = async (staffData: NewStaffData) => {
     const result = await addStaff(staffData)
@@ -181,8 +184,24 @@ export default function AdminStaffPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-48">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem className="cursor-pointer">View Details</DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer">Edit Staff</DropdownMenuItem>
+                            <DropdownMenuItem 
+                              className="cursor-pointer"
+                              onClick={() => {
+                                setSelectedStaff(member)
+                                setIsDetailsOpen(true)
+                              }}
+                            >
+                              View Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              className="cursor-pointer"
+                              onClick={() => {
+                                setSelectedStaff(member)
+                                setIsDetailsOpen(true)
+                              }}
+                            >
+                              Edit Staff
+                            </DropdownMenuItem>
                             <DropdownMenuItem className="cursor-pointer">View Payroll</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className="text-rose-600 cursor-pointer">Deactivate Staff</DropdownMenuItem>
@@ -197,6 +216,15 @@ export default function AdminStaffPage() {
           )}
         </CardContent>
       </Card>
+      <StaffDetailsDialog 
+        member={selectedStaff}
+        isOpen={isDetailsOpen}
+        onClose={() => {
+          setIsDetailsOpen(false)
+          setSelectedStaff(null)
+        }}
+        onUpdate={updateStaff}
+      />
     </div>
   )
 }

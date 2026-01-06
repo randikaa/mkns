@@ -6,11 +6,8 @@ import { eq } from 'drizzle-orm'
 export async function GET() {
   try {
     const allStaff = await db.select().from(staff).orderBy(staff.createdAt)
-    
-    // Remove password from response for security
-    const staffWithoutPassword = allStaff.map(({ password, ...staffMember }) => staffMember)
-    
-    return NextResponse.json({ staff: staffWithoutPassword })
+
+    return NextResponse.json({ staff: allStaff })
   } catch (error) {
     console.error('Error fetching staff:', error)
     return NextResponse.json(
@@ -60,13 +57,13 @@ export async function POST(request: NextRequest) {
     }
 
     const [createdStaff] = await db.insert(staff).values(newStaff).returning()
-    
+
     // Remove password from response
     const { password: _, ...staffResponse } = createdStaff
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       message: 'Staff member created successfully',
-      staff: staffResponse 
+      staff: staffResponse
     }, { status: 201 })
   } catch (error) {
     console.error('Error creating staff member:', error)

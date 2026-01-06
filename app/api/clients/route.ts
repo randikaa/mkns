@@ -6,11 +6,8 @@ import { eq } from 'drizzle-orm'
 export async function GET() {
   try {
     const allClients = await db.select().from(clients).orderBy(clients.createdAt)
-    
-    // Remove password from response for security
-    const clientsWithoutPassword = allClients.map(({ password, ...client }) => client)
-    
-    return NextResponse.json({ clients: clientsWithoutPassword })
+
+    return NextResponse.json({ clients: allClients })
   } catch (error) {
     console.error('Error fetching clients:', error)
     return NextResponse.json(
@@ -57,13 +54,13 @@ export async function POST(request: NextRequest) {
     }
 
     const [createdClient] = await db.insert(clients).values(newClient).returning()
-    
+
     // Remove password from response
     const { password: _, ...clientResponse } = createdClient
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       message: 'Client created successfully',
-      client: clientResponse 
+      client: clientResponse
     }, { status: 201 })
   } catch (error) {
     console.error('Error creating client:', error)

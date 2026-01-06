@@ -22,12 +22,15 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import AddClientDialog from "@/components/AddClientDialog"
-import { useClients, type NewClientData } from "@/hooks/use-clients"
+import ClientDetailsDialog from "@/components/ClientDetailsDialog"
+import { useClients, type NewClientData, type Client } from "@/hooks/use-clients"
 import { useState } from "react"
 
 export default function AdminClientsPage() {
-  const { clients, loading, error, addClient } = useClients()
+  const { clients, loading, error, addClient, updateClient } = useClients()
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedClient, setSelectedClient] = useState<Client | null>(null)
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false)
 
   const handleClientAdd = async (clientData: NewClientData) => {
     const result = await addClient(clientData)
@@ -160,8 +163,24 @@ export default function AdminClientsPage() {
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-48">
                             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuItem className="cursor-pointer">View Details</DropdownMenuItem>
-                            <DropdownMenuItem className="cursor-pointer">Edit Client</DropdownMenuItem>
+                            <DropdownMenuItem 
+                              className="cursor-pointer"
+                              onClick={() => {
+                                setSelectedClient(client)
+                                setIsDetailsOpen(true)
+                              }}
+                            >
+                              View Details
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              className="cursor-pointer"
+                              onClick={() => {
+                                setSelectedClient(client)
+                                setIsDetailsOpen(true)
+                              }}
+                            >
+                              Edit Client
+                            </DropdownMenuItem>
                             <DropdownMenuItem className="cursor-pointer">View Invoices</DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem className="text-rose-600 cursor-pointer">Archive Client</DropdownMenuItem>
@@ -176,6 +195,15 @@ export default function AdminClientsPage() {
           )}
         </CardContent>
       </Card>
+      <ClientDetailsDialog 
+        client={selectedClient}
+        isOpen={isDetailsOpen}
+        onClose={() => {
+          setIsDetailsOpen(false)
+          setSelectedClient(null)
+        }}
+        onUpdate={updateClient}
+      />
     </div>
   )
 }

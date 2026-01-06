@@ -7,6 +7,7 @@ export interface Client {
   email: string
   phone: string
   address?: string | null
+  password: string
   notes?: string | null
   status: string
   createdAt: string

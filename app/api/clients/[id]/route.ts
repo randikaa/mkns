@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const clientId = parseInt(params.id)
-    
+
     if (isNaN(clientId)) {
       return NextResponse.json(
         { error: 'Invalid client ID' },
@@ -18,7 +18,7 @@ export async function GET(
     }
 
     const [client] = await db.select().from(clients).where(eq(clients.id, clientId)).limit(1)
-    
+
     if (!client) {
       return NextResponse.json(
         { error: 'Client not found' },
@@ -26,10 +26,7 @@ export async function GET(
       )
     }
 
-    // Remove password from response
-    const { password, ...clientResponse } = client
-    
-    return NextResponse.json({ client: clientResponse })
+    return NextResponse.json({ client })
   } catch (error) {
     console.error('Error fetching client:', error)
     return NextResponse.json(
@@ -46,7 +43,7 @@ export async function PUT(
 ) {
   try {
     const clientId = parseInt(params.id)
-    
+
     if (isNaN(clientId)) {
       return NextResponse.json(
         { error: 'Invalid client ID' },
@@ -81,10 +78,10 @@ export async function PUT(
 
     // Remove password from response
     const { password, ...clientResponse } = updatedClient
-    
-    return NextResponse.json({ 
+
+    return NextResponse.json({
       message: 'Client updated successfully',
-      client: clientResponse 
+      client: clientResponse
     })
   } catch (error) {
     console.error('Error updating client:', error)
@@ -102,7 +99,7 @@ export async function DELETE(
 ) {
   try {
     const clientId = parseInt(params.id)
-    
+
     if (isNaN(clientId)) {
       return NextResponse.json(
         { error: 'Invalid client ID' },
@@ -122,8 +119,8 @@ export async function DELETE(
       )
     }
 
-    return NextResponse.json({ 
-      message: 'Client deleted successfully' 
+    return NextResponse.json({
+      message: 'Client deleted successfully'
     })
   } catch (error) {
     console.error('Error deleting client:', error)

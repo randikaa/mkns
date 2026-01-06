@@ -9,6 +9,7 @@ export interface Staff {
   position: string
   department: string
   salary?: string | null
+  password: string
   hireDate: string
   notes?: string | null
   status: string
