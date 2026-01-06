@@ -1,6 +1,8 @@
 {
   "/page": "app/page.js",
   "/contact/page": "app/contact/page.js",
+  "/login/page": "app/login/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/dashboard/admin/clients/page": "app/dashboard/admin/clients/page.js",
   "/dashboard/admin/page": "app/dashboard/admin/page.js",
   "/dashboard/admin/staff/page": "app/dashboard/admin/staff/page.js"
