@@ -39,7 +39,7 @@ export default function CareersPage() {
       <main>
         <section className="border-b border-border bg-muted/30 py-16 lg:py-24">
           <div className="mx-auto max-w-7xl px-4 lg:px-8">
-            <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl" style={{ fontFamily: "var(--font-heading)" }}>
+            <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-5xl" style={{ fontFamily: "var(--font-heading)" }}>
               Join Our Team
             </h1>
             <p className="mt-6 text-lg text-muted-foreground max-w-3xl">
@@ -77,7 +77,7 @@ export default function CareersPage() {
             </p>
             <div className="p-8 rounded-2xl border border-dashed border-border bg-muted/30">
               <p className="text-lg font-medium text-foreground">Email your CV to:</p>
-              <a href="mailto:contact@mknscleaningsolution.com.au" className="text-2xl font-bold text-primary hover:underline block mt-2">
+              <a href="mailto:contact@mknscleaningsolution.com.au" className="text-xl sm:text-2xl font-bold text-primary hover:underline block mt-2 break-all">
                 contact@mknscleaningsolution.com.au
               </a>
             </div>

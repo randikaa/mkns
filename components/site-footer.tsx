@@ -46,7 +46,7 @@ export function SiteFooter() {
               </span>
             </Link>
             <p className="mt-4 text-sm text-muted-foreground">
-              Professional commercial cleaning and property services. Delivering excellence since 2010.
+              Professional commercial cleaning and property services. Delivering excellence since 2018.
             </p>
             <div className="mt-6 flex gap-4">
               <a href="#" className="text-muted-foreground hover:text-primary" aria-label="Facebook">
