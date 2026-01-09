@@ -126,6 +126,15 @@ export function SiteFooter() {
         <div className="mt-12 border-t border-border pt-8">
           <p className="text-center text-sm text-muted-foreground">
             &copy; {new Date().getFullYear()} MKNS Cleaning Services. All rights reserved.
+            {" · "}
+            <a 
+              href="https://www.wideech.com/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              Made by Wideech
+            </a>
           </p>
         </div>
       </div>
