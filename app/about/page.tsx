@@ -199,7 +199,7 @@ export default function AboutPage() {
         </section>
 
         {/* Our Team */}
-        <section className="py-16 lg:py-24">
+        {/* <section className="py-16 lg:py-24">
           <div className="mx-auto max-w-7xl px-4 lg:px-8">
             <div className="text-center">
               <h2
@@ -229,7 +229,7 @@ export default function AboutPage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Certifications */}
         <section className="border-t border-border bg-muted/30 py-16 lg:py-24">
@@ -256,18 +256,34 @@ export default function AboutPage() {
                 </ul>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                {[1, 2, 3, 4].map((i) => (
-                  <div
-                    key={i}
-                    className="flex aspect-square items-center justify-center rounded-xl border border-border bg-card p-6"
-                  >
-                    <img
-                      src={`/certification-badge.png?height=100&width=100&query=certification badge ${i}`}
-                      alt="Certification badge"
-                      className="h-20 w-20 opacity-60"
-                    />
-                  </div>
-                ))}
+                <div className="flex aspect-square items-center justify-center rounded-xl border border-border bg-card p-6">
+                  <img
+                    src="/iso-quality-badge.png"
+                    alt="ISO 9001 Quality Management Certification"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <div className="flex aspect-square items-center justify-center rounded-xl border border-border bg-card p-6">
+                  <img
+                    src="/environmental-badge.png"
+                    alt="ISO 14001 Environmental Management Certification"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <div className="flex aspect-square items-center justify-center rounded-xl border border-border bg-card p-6">
+                  <img
+                    src="/safety-badge.png"
+                    alt="SafeWork NSW Safety Certification"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
+                <div className="flex aspect-square items-center justify-center rounded-xl border border-border bg-card p-6">
+                  <img
+                    src="/green-cleaning-badge.png"
+                    alt="Green Cleaning Eco-Friendly Certification"
+                    className="h-full w-full object-contain"
+                  />
+                </div>
               </div>
             </div>
           </div>
